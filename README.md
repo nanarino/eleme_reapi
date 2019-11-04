@@ -1,5 +1,5 @@
 # file-pycrypt
-~~【自用】~~借助Python加密文件/文本的demo
+ ~~【自用】~~ 借助Python加密文件/文本的demo
 
 
 
@@ -17,15 +17,24 @@ pip install -i https://pypi.douban.com/simple pycryptodomex
 
 仓库内含有3个demo
 
-- text_crypt.py
+- `text_crypt.py`
+  
   字符串加密/解密demo
-- file_crypt_cover.py
+  
+- `file_crypt_cover.py`
+  
   文件加密/解密（cmd交互）
+  
   生成的文件会覆盖原先的文件，
+  
   文件正在被其他软件使用时候会出错且无法回滚
-- file_crypt_rename.py
+  
+- `file_crypt_rename.py`
+  
   文件加密/解密（cmd交互）
+  
   生成的文件名后会加上【已加密/已解密】
+  
   推荐使用这个，因为经常蜜汁占用（文件正在被其他软件使用）
 
 
