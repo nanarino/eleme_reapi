@@ -1,9 +1,9 @@
 # file-pycrypt
-Python编写的 用于 文本/文件的 加密脚本示例
+~~【自用】~~借助Python加密文件/文本的demo
 
 
 
-## 安装依赖
+## 依赖
 
 Windows系统：
 
@@ -13,28 +13,26 @@ pip install -i https://pypi.douban.com/simple pycryptodomex
 
 
 
-## 脚本介绍
+## 描述
 
-```bash
-#字符串加密/解密示例
-text_crypt.py
+仓库内含有3个demo
 
-#文件加密/解密（cmd交互）
-#生成的文件会覆盖原先的文件，
-#文件正在被其他软件使用时候会出错且无法回滚
-file_crypt_cover.py
-
-#文件加密/解密（cmd交互）
-#生成的文件名后会加上【已加密/已解密】
-#推荐使用这个，因为经常蜜汁占用（文件正在被其他软件使用）
-file_crypt_rename.py
-```
+- text_crypt.py
+  字符串加密/解密demo
+- file_crypt_cover.py
+  文件加密/解密（cmd交互）
+  生成的文件会覆盖原先的文件，
+  文件正在被其他软件使用时候会出错且无法回滚
+- file_crypt_rename.py
+  文件加密/解密（cmd交互）
+  生成的文件名后会加上【已加密/已解密】
+  推荐使用这个，因为经常蜜汁占用（文件正在被其他软件使用）
 
 
 
-## 交互示例
+## 示例
 
-运行file_crypt_rename.py
+运行`file_crypt_rename.py`
 
 同级目录下有一个名为 `少儿不宜.avi` 的待加密文件
 
@@ -50,7 +48,7 @@ a
 >>> 
 ```
 
-生成：`少儿不宜.avi.已加密`文件
+生成文件：`少儿不宜.avi.已加密`
 
 解密时操作相同，交互输入加密时的相同秘钥，和加密后的文件名即可解密
 
