@@ -1,6 +1,8 @@
 # eleme_reapi
  ~~【自用】~~ 借助Python的饿百API同步请求工具
 
+官方API文档：https://open-be.ele.me/
+
 
 
 ## 依赖
@@ -34,6 +36,7 @@ pprint(res)
 输出
 
 ```json
+
 req:
 
 {'body': '{"shop_id":"test_681501_61260","upc":"6926603501109"}',

@@ -1,3 +1,4 @@
-__all__ = ['sender']
+__all__ = ['sender', 'collect']
 
 from .sender import *
+from .collect import *

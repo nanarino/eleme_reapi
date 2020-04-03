@@ -1,3 +1,4 @@
-__all__ = ['parse']
+__all__ = ['correct', 'parse']
 
+from . import correct
 from . import parse
