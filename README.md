@@ -15,7 +15,10 @@ requests==2.23.0
 
 
 
-## 示例
+## 文档接口调用示例
+
+- cmd，接口指令
+- body，应用级参数
 
 ```python
 import eleme_reapi as ele
@@ -35,7 +38,7 @@ pprint(res)
 
 输出
 
-```json
+```python
 
 req:
 
@@ -62,5 +65,21 @@ res:
  'ticket': '16738AEC-53FC-4442-9FDA-119E4FBD8720',
  'timestamp': 1585794397,
  'version': '3'}
+```
+
+
+
+## 附带的爬取功能
+
+- get_shop_category_info，爬取指定门店下的分类信息
+- get_foods_by_category，爬取指定门店指定分类下的商品信息
+
+```python
+import eleme_reapi as ele
+
+res = ele.collect.get_shop_category_info(shop_id = 2233310913)
+
+pprint(res)
+#res['result']['detail']获得分类详细列表，包括每个分类的id
 ```
 
