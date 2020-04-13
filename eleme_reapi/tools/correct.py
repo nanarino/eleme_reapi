@@ -7,7 +7,7 @@ def _is_yabee(data: str) -> bool:
     
     Returns: bool
     """
-    if not data.isascii():
+    if isinstance(data, str) and not data.isascii():
         try:
             s = data.encode('Latin1').decode('gb2312')
         except UnicodeDecodeError:
@@ -17,7 +17,7 @@ def _is_yabee(data: str) -> bool:
     return False
 
 
-def uni(body: dict):
+def charset(body: dict):
     """对参数值的字符进行校验"""
     
     if yabee_list := list(filter(None, (_is_yabee(i) for i in body.values()))):

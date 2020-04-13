@@ -51,7 +51,7 @@ class sender:
             元组（req：请求的全部数据，res：返回的全部数据）。都经过了反序列化。
         '''
         
-        correct.uni(body) # 非ASCII字符编码校验
+        correct.charset(body) # 非ASCII字符编码校验
 
         body = json.dumps(body, sort_keys=True, separators=(',', ':'))
         req = dict(sign.remix(self, cmd, body))
