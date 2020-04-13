@@ -10,7 +10,7 @@ def _is_yabee(data: str) -> bool:
     if isinstance(data, str) and not data.isascii():
         try:
             s = data.encode('Latin1').decode('gb2312')
-        except UnicodeDecodeError:
+        except (UnicodeEncodeError, UnicodeDecodeError):
             pass
         else:
             return s
