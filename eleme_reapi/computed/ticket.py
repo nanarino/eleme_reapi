@@ -3,7 +3,7 @@ import random
 
 def _random_hex(n):
     """生成n位长度的随机十六进制字符串"""
-    return hex(random.randint(0, 16**n))[2:].zfill(n)
+    return hex(random.randint(0, 16**n - 1))[2:].zfill(n)
 
 
 def ticket():
