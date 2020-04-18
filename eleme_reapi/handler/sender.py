@@ -39,19 +39,21 @@ class sender:
                 return
         raise ValueError("实例化时参数version格式错误") 
 
-    def request(self, cmd: str, body: dict) -> (dict, dict):
+    def request(self, cmd: str, body: dict, examine = False) -> (dict, dict):
         '''发送请求
 
         Args:
             cmd: 请求业务对应的命令.
             body: 请求业务对应的参数JSON。详见https://open-be.ele.me/dev/api/apidoc.
             body["shop_id"]: 请求的门店id，测试账号的门店id应该是【合作方商户id】.
+            correct: 是否对数据校验
         
         Returns:
             元组（req：请求的全部数据，res：返回的全部数据）。都经过了反序列化。
         '''
-        
-        correct.charset(body) # 非ASCII字符编码校验
+        if examine:
+            correct.charset(body) # 非ASCII字符编码校验
+            # correct.arg(body, cmd) # 对对应命令的必传参数及其数据类型校验
 
         body = json.dumps(body, sort_keys=True, separators=(',', ':'))
         req = dict(sign.remix(self, cmd, body))

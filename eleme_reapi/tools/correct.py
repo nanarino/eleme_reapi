@@ -25,5 +25,5 @@ def charset(body: dict):
 
 
 def arg(body: dict, cmd: str):
-    """对参数键值的完整性进行校验"""
+    """对参数键值的完整性和类型进行校验"""
     pass
