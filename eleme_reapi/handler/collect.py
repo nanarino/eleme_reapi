@@ -17,6 +17,7 @@ def get_shop_category_info(shop_id) -> dict:
     data = parse.url({"shop_id": shop_id})
     res = requests.get(_url + 'getshopcategoryinfo?' + data)
     return res.json()
+    
 
 
 def get_foods_by_category(shop_id, category_id) -> dict:

@@ -49,7 +49,7 @@ class sender:
             correct: 是否对数据校验
         
         Returns:
-            元组（req：请求的全部数据，res：返回的全部数据）。都经过了反序列化。
+            （req：请求的全部数据，res：返回的全部数据）。都经过了反序列化。
         '''
         if examine:
             correct.charset(body) # 非ASCII字符编码校验
