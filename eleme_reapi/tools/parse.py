@@ -1,6 +1,8 @@
 """序列化功能"""
 from collections import OrderedDict
 from functools import reduce
+import json
+import decimal
 
 
 def url(data: OrderedDict) -> str:
@@ -19,3 +21,23 @@ def list_reshape(li: list, size: int) -> list:
         return a
 
     return list(reduce(set_size, enumerate(li), []))
+
+
+class DecimalBatchEncoder(json.JSONEncoder):
+    """序列化补充类.
+    
+    在json.dumps时decimal类将会被视为int类
+    """
+    def default(self, o):  # pylint: disable=E0202
+        if isinstance(o, decimal.Decimal): return int(o)
+        super().default(o)
+
+
+def stock_batch(batch: dict) -> str:
+    """将字典转化为接口sku.stock.update.batch所需格式
+    
+    dict([("000",Decimal(1.0),), ("001",Decimal(2.0),)]) -> "000:1;001:2"
+    """
+    return json.dumps(batch,
+                      cls=DecimalBatchEncoder, separators=(';', ':')).replace(
+                          '"', '').replace('{', '').replace('}', '')
