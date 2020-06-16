@@ -1,4 +1,4 @@
-'''熔断器'''
+'''基于错误次数的简单熔断器'''
 from collections import deque
 
 

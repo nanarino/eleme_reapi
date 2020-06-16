@@ -16,6 +16,8 @@ def get_shop_category_info(shop_id) -> dict:
     """
     data = parse.url({"shop_id": shop_id})
     res = requests.get(_url + 'getshopcategoryinfo?' + data)
+    if not (status_code:=res.status_code) == 200:
+        return status_code
     return res.json()
     
 
@@ -37,4 +39,6 @@ def get_foods_by_category(shop_id, category_id) -> dict:
         "type": 1
     })
     res = requests.get(_url + 'getfoodsbycategory?' + data)
+    if not (status_code:=res.status_code) == 200:
+        return status_code
     return res.json()
