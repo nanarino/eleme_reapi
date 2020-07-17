@@ -5,6 +5,18 @@ import json
 import decimal
 
 
+def yabee_nvarchar(data: str) -> str:
+    """对数据库的不合适的中文字段进行修正"""
+    if isinstance(data, str) and not data.isascii():
+        try:
+            s = data.encode('Latin1').decode('gb2312')
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            pass
+        else:
+            return s
+    return data
+
+
 def url(data: OrderedDict) -> str:
     """将字典序列化为url格式但是不编码"""
     if not data: return

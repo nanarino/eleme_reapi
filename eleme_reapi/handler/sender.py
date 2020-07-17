@@ -2,7 +2,6 @@ from ..computed import sign
 from collections import OrderedDict
 import requests
 import json
-from ..tools import correct
 from ..tools.parse import Decimal_as_int_Encoder
 
 
@@ -40,22 +39,18 @@ class sender:
                 return
         raise ValueError("实例化时参数version格式错误") 
 
-    def request(self, cmd: str, body: dict, examine = False) -> (dict, dict):
+    def request(self, cmd: str, body: dict) -> (dict, dict):
         '''发送请求
 
         Args:
             cmd: 请求业务对应的命令.
-            body: 请求业务对应的参数。详见https://open-be.ele.me/dev/api/apidoc.
+            body: 请求业务对应的参数。详见'https://open-be.ele.me/dev/api/apidoc'.
                 由于几乎不存在参数为浮点类型的接口，Decimal类型在序列化时会被视为int类型.
             body["shop_id"]: 请求的门店id，测试账号的门店id应该是【合作方商户id】.
-            examine: 是否对数据校验
         
         Returns:
             （req：请求的全部数据，res：返回的全部数据）。都经过了反序列化。
         '''
-        if examine:
-            correct.charset(body) # 非ASCII字符编码校验
-            # correct.arg(body, cmd) # 对对应命令的必传参数及其数据类型校验
 
         body = json.dumps(body, cls=Decimal_as_int_Encoder, sort_keys=True, separators=(',', ':'))
         req = dict(sign.remix(self, cmd, body))

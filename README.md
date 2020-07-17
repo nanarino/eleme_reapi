@@ -1,5 +1,5 @@
 # eleme_reapi
- ~~【自用】~~ 借助Python的饿百API同步请求工具
+ ~~【自用】~~ 借助Python的饿百【医药类】API **同步请求** 工具
 
 官方API文档：https://open-be.ele.me/
 
