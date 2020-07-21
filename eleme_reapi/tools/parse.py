@@ -45,11 +45,11 @@ class Decimal_as_int_Encoder(json.JSONEncoder):
         super().default(o)
 
 
-def stock_batch(batch: dict) -> str:
-    """将字典转化为接口sku.stock.update.batch所需格式
+def batch(data: dict) -> str:
+    """将字典转化为批量上传更新等接口所需格式
     
     dict([("000",Decimal(1.0),), ("001",Decimal(2.0),)]) -> "000:1;001:2"
     """
-    return json.dumps(batch, cls=Decimal_as_int_Encoder,
+    return json.dumps(data, cls=Decimal_as_int_Encoder,
                       separators=(';', ':')).replace('"', '').replace(
                           '{', '').replace('}', '')

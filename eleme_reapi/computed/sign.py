@@ -23,7 +23,7 @@ def remix(ele_sender: sender, cmd: str, body: str) -> OrderedDict:
         body: 请求业务对应的参数JSON。详见https://open-be.ele.me/dev/api/apidoc.
 
     Returns:
-        有序字典，最终满足接口请求格式的数据.
+        有序字典，最终满足接口请求格式的数据.该函数不会对sender对象的属性进行修改.
     """
     data = OrderedDict()
     data["body"] = body
