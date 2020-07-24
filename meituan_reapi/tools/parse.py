@@ -33,23 +33,3 @@ def list_reshape(li: list, size: int) -> list:
         return a
 
     return list(reduce(set_size, enumerate(li), []))
-
-
-class Decimal_as_int_Encoder(json.JSONEncoder):
-    """序列化补充类.
-    
-    在json.dumps时decimal类将会被视为int类
-    """
-    def default(self, o):  # pylint: disable=E0202
-        if isinstance(o, decimal.Decimal): return int(o)
-        super().default(o)
-
-
-def batch(data: dict) -> str:
-    """将字典转化为批量上传更新等接口所需格式
-    
-    dict([("000",Decimal(1.0),), ("001",Decimal(2.0),)]) -> "000:1;001:2"
-    """
-    return json.dumps(data, cls=Decimal_as_int_Encoder,
-                      separators=(';', ':')).replace('"', '').replace(
-                          '{', '').replace('}', '')

@@ -2,11 +2,9 @@
 
 包括:
     sign: 签名
-    ticket：UUID
     timestamp：时间戳
 """
-__all__ = ['ticket', 'timestamp', 'sign']
+__all__ = ['timestamp', 'sign']
 
-from .ticket import *
 from .timestamp import *
 from . import sign

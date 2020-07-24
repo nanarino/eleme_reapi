@@ -1,7 +1,10 @@
-# eleme_reapi
- ~~【自用】~~ 借助Python的饿百【医药类】API **同步请求** 工具
+# meituan_reapi
 
-官方API文档：https://open-be.ele.me/
+**从主分支eleme_reapi模块魔改而成的 不再适用于饿了么**
+
+ ~~【自用】~~ 借助Python的美团【医药类】API **同步请求** 工具
+
+官方API文档：https://open-shangou.meituan.com/
 
 
 
@@ -17,69 +20,30 @@ requests==2.23.0
 
 ## 文档接口调用示例
 
-- cmd，接口指令
+- api，接口名
 - body，应用级参数
 
 ```python
-import eleme_reapi as ele
+import meituan_reapi as mt
 
-es = ele.sender(source="61260", secret='185bec8dacd85500')
+ms = mt.sender(app_id=4411, app_secret='681e8b0c153321faf5e40b7fa3e7244b')
 
-body = {"shop_id": "test_681501_61260", "upc": "6926603501109"}
+body = {
+    'app_poi_code': 't_i7ISIvit9C',
+    'app_medicine_code': '207010458',
+    'upc': '6922049735924',
+    'price': float(19.9),
+    'stock': str(int(22)),
+    'category_code': 'test_cat_1',
+    'category_name': '测试分类1'
+}
 
-req, res = es.request(cmd="sku.stdupc.exist", body=body)
+req, res = ms.request(api = "medicine/save", body = body)
 
-from pprint import pprint
-print('\nreq:\n')
-pprint(req)
-print('\nres:\n')
-pprint(res)
-```
-
-输出
-
-```python
-
-req:
-
-{'body': '{"shop_id":"test_681501_61260","upc":"6926603501109"}',
- 'cmd': 'sku.stdupc.exist',
- 'encrypt': 'des.v1',
- 'fields': 'a|b',
- 'secret': '185bec8dacd85500',
- 'sign': 'EFE28AAF2C3D9B81875E9B53CB2D18D0',
- 'source': '61260',
- 'ticket': '9A39B5A2-F9D3-D91E-676B-5071DAA9E338',
- 'timestamp': '1585794397',
- 'version': '3'}
-
-res:
-
-{'body': {'data': {'std_flag': 1, 'upc': '6926603501109'},
-          'errno': 0,
-          'error': 'success'},
- 'cmd': 'resp.sku.stdupc.exist',
- 'encrypt': 'des.v1',
- 'sign': 'AC2DC057B518A2350A5ABA5BD8214650',
- 'source': '61260',
- 'ticket': '16738AEC-53FC-4442-9FDA-119E4FBD8720',
- 'timestamp': 1585794397,
- 'version': '3'}
+print(req, res)
 ```
 
 
 
-## 附带的爬取功能
 
-- get_shop_category_info，爬取指定门店下的分类信息
-- get_foods_by_category，爬取指定门店指定分类下的商品信息
-
-```python
-import eleme_reapi as ele
-
-res = ele.collect.get_shop_category_info(shop_id = 2233310913)
-
-pprint(res)
-#res['result']['detail']获得分类详细列表，包括每个分类的id
-```
 
