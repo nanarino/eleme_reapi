@@ -1,5 +1,9 @@
 # eleme_reapi
- ~~【自用】~~ 借助Python的饿百【医药类】API **同步请求** 工具
+ ~~【自用】~~ 借助Python的饿了么API **同步请求** 【eleme_reapi】模块
+
+另外还在分支中更新了**用于美团接口**的【meituan_reapi】模块
+
+可能只适用于医药类接口
 
 官方API文档：https://open-be.ele.me/
 
