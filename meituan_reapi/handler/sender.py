@@ -7,7 +7,7 @@ from ..tools.circuit_breaker import retry_five_times
 
 class senderror(Exception):
     '''发送失败'''
-    def __init__(self, err='发送失败：发送失败，网络错误'):
+    def __init__(self, err='发送失败：网络错误'):
         Exception.__init__(self, err)
 
 def raise_senderror():
