@@ -93,3 +93,22 @@ class circuit_breaker():
         '''重新初始化熔断器状态'''
         self.sample = deque([True] * self.initlen, maxlen=self.maxlen)
         return self
+
+
+def retry_five_times(task,
+                     *,
+                     error=(Exception, ),
+                     times=5,
+                     err_callback=sleeper(3),
+                     circuit_fused_callback=None):
+    '''やりなおす! 捕获到指定的异常将会重试 如果超过次数会触发回调或抛出CircuitFused异常'''
+    cb = circuit_breaker(times, circuit_fused_callback)
+    while 1:
+        try:
+            ret = task()
+            cb.shift(True)
+            break
+        except error:
+            err_callback()
+            cb.shift(False)
+    return ret

@@ -29,7 +29,7 @@ with db.conn.log() as log, db.conn.org() as org:
                 }, data_list)),
                                    separators=(',', ':'))
 
-        req, res = ms.request(api = "medicine/batchsave", body = {
+        res = ms.request(api = "medicine/batchsave", body = {
             'app_poi_code': 't_i********C',
             'medicine_data': medicine_data
         })
