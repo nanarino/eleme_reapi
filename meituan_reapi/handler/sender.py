@@ -9,7 +9,7 @@ from typing import Callable, Mapping, Optional
 class senderror(Exception):
     '''发送失败 默认错误信息是【发送失败：网络错误】'''
     def __init__(self, err: str = '发送失败：网络错误'):
-        super().__init__(self, err)
+        super().__init__(err)
 
 def senderror_raiser(*args, **kwargs) -> Callable:
     '''返回套娃的抛出发送失败的异常'''

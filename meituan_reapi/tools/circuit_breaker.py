@@ -15,8 +15,8 @@ def sleeper(secs: Union[float, int] = 60) -> Callable:
 
 class CircuitFused(Exception):
     '''熔断器异常触发'''
-    def __init__(self, err: str = '达到阈值，熔断器触发'):
-        super().__init__(self, err)
+    def __init__(self, err: str = '熔断器触发：达到了设置的阈值'):
+        super().__init__(err)
 
 
 class circuit_breaker():
@@ -84,8 +84,8 @@ class circuit_breaker():
                     self.callback()
             else:
                 if self.threshold == 1.0:
-                    raise CircuitFused(f'连续{len(self)}次错误导致熔断器触发')
-                raise CircuitFused('错误率达到阈值导致熔断器触发')
+                    raise CircuitFused(f'熔断器触发：连续{len(self)}次错误')
+                raise CircuitFused(f'熔断器触发：错误率超过了{self.threshold}')
         return self
 
     def extend(self, iterable: Iterable):
