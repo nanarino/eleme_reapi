@@ -3,7 +3,7 @@ from collections import OrderedDict
 import requests, json
 from requests import RequestException
 from ..tools import retry_for_good
-from typing import Callable, Mapping
+from typing import Callable, Mapping, Optional
 
 
 class senderror(Exception):
@@ -36,7 +36,7 @@ class sender:
         self.data = OrderedDict([('app_id', app_id)])
         self.app_secret = app_secret
 
-    def request(self, api: str, body: Mapping, method: str = 'POST') -> dict:
+    def request(self, api: str, body: Mapping, method: Optional[str] = 'POST') -> dict:
         '''发送请求
 
         Args:
@@ -56,9 +56,9 @@ class sender:
             return req
 
         if method.upper() == 'GET':
-            res_obj = retry_for_good(lambda : requests.get(self.url + self.version + api, params = req), error=RequestException)
+            res_obj = retry_for_good(lambda : requests.get(self.url + self.version + api, params=req), error=RequestException)
         elif method.upper() == 'POST':
-            res_obj = retry_for_good(lambda : requests.post(self.url + self.version + api, data = req), error=RequestException)
+            res_obj = retry_for_good(lambda : requests.post(self.url + self.version + api, data=req), error=RequestException)
         else:
             raise TypeError("参数错误：method参数只有‘GET’和‘POST’两种选择")
 
