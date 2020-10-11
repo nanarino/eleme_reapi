@@ -8,4 +8,4 @@
 __all__ = ['parse', 'circuit_breaker']
 
 from . import parse
-from . import circuit_breaker
+from .circuit_breaker import *

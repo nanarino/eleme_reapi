@@ -38,9 +38,9 @@ body = {
     'category_name': '测试分类1'
 }
 
-req, res = ms.request(api = "medicine/save", body = body)
+res = ms.request(api = "medicine/save", body = body)
 
-print(req, res)
+print(res)
 ```
 
 
