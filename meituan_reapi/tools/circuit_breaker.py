@@ -5,14 +5,6 @@ from functools import reduce, partial
 from typing import Callable, Iterable, Optional, Union, Any
 
 
-def sleeper(secs: Union[float, int] = 60) -> Callable:
-    '''返回套娃的time.sleep(secs=60)'''
-    def wait():
-        sleep(secs)
-
-    return wait
-
-
 class CircuitFused(Exception):
     '''熔断器异常触发'''
     def __init__(self, err: str = '熔断器触发：达到了设置的阈值'):
@@ -34,7 +26,6 @@ class circuit_breaker():
             如果为次数熔断，initlen和maxlen都将被赋值为threshold次数
             如果为次数熔断，初始化后的threshold属性将被赋值为1.0
             如果为错误率熔断，initlen不宜设置的过大，且不能超过maxlen（如果设置）
-            callback一般设置为sleeper()
     '''
     def __init__(self,
                  threshold: Union[float, int] = 7,
@@ -145,4 +136,7 @@ def retry(*tasks: Callable,
 
 
 #永远重试，每次间隔15秒
-retry_for_good = partial(retry, cb=None, cb_times=1, cb_callback=sleeper(15))
+retry_for_good = partial(retry,
+                         cb=None,
+                         cb_times=1,
+                         cb_callback=partial(sleep, 15))

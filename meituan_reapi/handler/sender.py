@@ -3,19 +3,13 @@ from collections import OrderedDict
 import requests, json
 from requests import RequestException
 from ..tools import retry_for_good
-from typing import Callable, Mapping, Optional
+from typing import Mapping, Optional
 
 
 class senderror(Exception):
     '''发送失败 默认错误信息是【发送失败：网络错误】'''
     def __init__(self, err: str = '发送失败：网络错误'):
         super().__init__(err)
-
-def senderror_raiser(*args, **kwargs) -> Callable:
-    '''返回套娃的抛出发送失败的异常'''
-    def raise_senderror():
-        raise senderror(*args, **kwargs)
-    return raise_senderror
 
 
 class sender:
