@@ -2,7 +2,7 @@
 import uuid
 
 
-def ticket():
+def ticket() -> str:
     """生成请求饿百接口所需的ticket参数"""
     return str(uuid.uuid1()).upper()
 

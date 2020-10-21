@@ -7,7 +7,7 @@
     eleme_reapi.collect: H5接口调用函数
 '''
 
-__version__ = "0.0.2"
+__version__ = "0.0.4"
 
 __all__ = ['handler', 'computed', 'tools']
 

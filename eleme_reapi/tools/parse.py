@@ -1,8 +1,8 @@
 """序列化等格式转换功能"""
 from collections import OrderedDict
 from functools import reduce
-import json
-import decimal
+import json, decimal
+from typing import List, Mapping
 
 
 def yabee_nvarchar(data: str) -> str:
@@ -26,7 +26,7 @@ def url(data: OrderedDict) -> str:
     return url_after_qm[1:]
 
 
-def list_reshape(li: list, size: int) -> list:
+def list_reshape(li: list, size: int) -> List[list]:
     """将一维列表转化为每个成员最大长度为size的二维列表"""
     def set_size(a, v):
         a[-1].append(v[1]) if v[0] % size else a.append([v[1]])
@@ -45,7 +45,7 @@ class Decimal_as_int_Encoder(json.JSONEncoder):
         super().default(o)
 
 
-def batch(data: dict) -> str:
+def batch(data: Mapping) -> str:
     """将字典转化为批量上传更新等接口所需格式
     
     dict([("000",Decimal(1.0),), ("001",Decimal(2.0),)]) -> "000:1;001:2"

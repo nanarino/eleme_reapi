@@ -1,8 +1,16 @@
 from ..computed import sign
 from collections import OrderedDict
-import requests
-import json
+import requests, json
+from requests import RequestException
+from ..tools import retry_for_good
+from typing import Mapping, Optional, Union
 from ..tools.parse import Decimal_as_int_Encoder
+
+
+class senderror(Exception):
+    '''发送失败 默认错误信息是【发送失败：网络错误】'''
+    def __init__(self, err: str = '发送失败：网络错误'):
+        super().__init__(err)
 
 
 class sender:
@@ -22,11 +30,11 @@ class sender:
     url = "https://api-be.ele.me/"
 
     def __init__(self,
-                 source,
-                 secret,
+                 source: Union[str, int],
+                 secret: Union[str, int],
                  encrypt: str = 'des.v1',
                  fields: str = 'a|b',
-                 version = '3'):
+                 version: Union[str, float]= '3.0'):
         kwargs = OrderedDict()
         kwargs['encrypt'] = encrypt
         kwargs['fields'] = fields
@@ -37,22 +45,39 @@ class sender:
                 kwargs["version"] = main_ver
                 self.public_args = kwargs
                 return
-        raise ValueError("实例化时参数version格式错误") 
+        raise TypeError("实例化时参数version格式错误") 
 
-    def request(self, cmd: str, body: dict) -> (dict, dict):
+    def request(self, cmd: str, body: Mapping, method: Optional[str] = 'POST') -> dict:
         '''发送请求
 
         Args:
             cmd: 请求业务对应的命令.
             body: 请求业务对应的参数。详见'https://open-be.ele.me/dev/api/apidoc'.
                 由于几乎不存在参数为浮点类型的接口，Decimal类型在序列化时会被视为int类型.
-            body["shop_id"]: 请求的门店id，测试账号的门店id应该是【合作方商户id】.
-        
+                body["shop_id"]: 请求的门店id，测试账号的门店id应该是【合作方商户id】.
+            method: 请求方式 默认'POST'.根据文档来看 目前还没有post之外的请求方式.
+
         Returns:
-            （req：请求的全部数据，res：返回的全部数据）。都经过了反序列化。
+            req：请求的全部数据, 请求方式为None会返回req.
+            res：返回的全部数据, 经过了反序列化.
         '''
 
         body = json.dumps(body, cls=Decimal_as_int_Encoder, sort_keys=True, separators=(',', ':'))
         req = dict(sign.remix(self, cmd, body))
-        res = requests.post(self.url, data=req).json()
-        return req, res
+
+        if method is None:
+            return req
+        
+        if method.upper() == 'GET':
+            res_obj = retry_for_good(lambda : requests.get(self.url, params=req), error=RequestException)
+        elif method.upper() == 'POST':
+            res_obj = retry_for_good(lambda : requests.post(self.url, data=req), error=RequestException)
+        else:
+            raise TypeError("参数错误：method参数只有‘GET’和‘POST’两种选择")
+
+        if (status_code:=res_obj.status_code) == 200:
+            res = res_obj.json()
+        else:
+            raise senderror(f"发送失败：HTTP状态码不符合预期，{status_code=}，{req=}")
+
+        return res
