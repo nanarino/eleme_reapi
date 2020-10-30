@@ -8,9 +8,9 @@ from ..tools.parse import Decimal_as_int_Encoder
 
 
 class senderror(Exception):
-    '''发送失败 默认错误信息是【发送失败：网络错误】'''
-    def __init__(self, err: str = '发送失败：网络错误'):
-        super().__init__(err)
+    '''发送失败'''
+    def __init__(self, *args):
+        super().__init__(*args)
 
 
 class sender:
