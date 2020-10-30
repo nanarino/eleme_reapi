@@ -5,6 +5,7 @@
     senderror: 统一的api请求异常类 方便熔断器捕获
 """
 
-__all__ = ['sender']
+__all__ = ['sender', 'senderror']
 
-from .sender import *
+from .sender import sender
+from .sender import senderror

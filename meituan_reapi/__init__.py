@@ -6,7 +6,7 @@
     eleme_reapi.sender: 文档接口调用类
 '''
 
-__version__ = "0.0.3"
+__version__ = "0.0.5"
 
 __all__ = ['handler', 'computed', 'tools']
 

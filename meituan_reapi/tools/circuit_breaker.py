@@ -91,7 +91,7 @@ class circuit_breaker():
         return self
 
 
-def retry(*tasks: Callable,
+def retry(tasks: Union[Iterable[Callable], Callable],
           error=(Exception, ),
           err_callback: Optional[Callable] = None,
           cb: Optional[circuit_breaker] = None,
@@ -103,7 +103,7 @@ def retry(*tasks: Callable,
             tasks: 可执行的任务.
             error: 指定的作为熔断器样本的异常类型.
             err_callback: 异常样本触发回调.
-                err_callback可接受一个参数，将传入错误信息
+                err_callback可接受一个参数，将传入错误信息(err.args)
             cb[cb_times, cb_callback] 熔断器对象.
                 cb_times: 最大重试次数,默认是7
                 cb_callback: 熔断器触发回调，不设置将在触发熔断时抛出CircuitFused异常
@@ -114,25 +114,31 @@ def retry(*tasks: Callable,
             如果只有一个任务 返回成功的任务结果
             如果有多个任务 返回成功样本的任务结果列表
 
+        PS:
+            使用此函数后不用再手动cb.shift()
     '''
+    assert (is_task := callable(tasks)) ^ isinstance(tasks, Iterable), 'tasks需要是可执行对象或者可迭代对象'
+    is_task and (tasks := [tasks])
     cb = circuit_breaker(cb_times, cb_callback) if cb is None else cb
     ret = None
     rets = []
     for task in tasks:
+        if not is_task:
+            assert callable(task), '迭代tasks需要能得到可执行对象'
         while 1:
             try:
                 ret = task()
                 cb.shift(True)
                 break
-            except error as err_info:
+            except error as err:
                 if callable(err_callback):
                     try:
-                        err_callback(err_info)
+                        err_callback(err.args)
                     except TypeError:
                         err_callback()
                 cb.shift(False)
         rets.append(ret)
-    return ret if len(rets) == 1 else rets
+    return ret if is_task else rets
 
 
 #永远重试，每次间隔15秒
