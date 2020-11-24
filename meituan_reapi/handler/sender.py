@@ -30,7 +30,10 @@ class sender:
         self.data = OrderedDict([('app_id', app_id)])
         self.app_secret = app_secret
 
-    def request(self, api: str, body: Mapping, method: Optional[str] = 'POST') -> dict:
+    def request(self,
+                api: str,
+                body: Mapping,
+                method: Optional[str] = 'POST') -> dict:
         '''发送请求
 
         Args:
@@ -49,16 +52,15 @@ class sender:
         if method is None:
             return req
 
-        if method.upper() == 'GET':
-            res_obj = retry_for_good(lambda : requests.get(self.url + self.version + api, params=req), error=RequestException)
-        elif method.upper() == 'POST':
-            res_obj = retry_for_good(lambda : requests.post(self.url + self.version + api, data=req), error=RequestException)
-        else:
-            raise TypeError("参数错误：method参数只有‘GET’和‘POST’两种选择")
+        def try_send():
+            '''发起请求 超时或状态码不是200将会无限重试（频率15秒）'''
+            if method.upper() == 'GET':
+                r = requests.get(self.url + self.version + api, params=req)
+            elif method.upper() == 'POST':
+                r = requests.post(self.url + self.version + api, data=req)
+            else:
+                raise TypeError("参数错误：method参数只有‘GET’和‘POST’两种选择")
+            r.raise_for_status()
+            return r.json()
 
-        if (status_code:=res_obj.status_code) == 200:
-            res = res_obj.json()
-        else:
-            raise senderror(f"发送失败：HTTP状态码不符合预期，{status_code=}，{req=}")
-
-        return res
+        return retry_for_good(try_send, RequestException)
