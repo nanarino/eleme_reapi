@@ -68,3 +68,8 @@ pprint(res)
 #res['result']['detail']获得分类详细列表，包括每个分类的id
 ```
 
+
+
+---
+
+下载依赖模块时如果遇到`ValueError: check_hostname requires server_hostname`异常，请关闭系统代理或者下载whl文件离线安装。如果运行时出现这个错误，请传入proxies参数。
