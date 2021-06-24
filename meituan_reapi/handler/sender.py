@@ -1,6 +1,6 @@
 from ..computed import sign
 from collections import OrderedDict
-import requests, json
+import requests
 from requests import RequestException
 from ..tools import retry_for_good
 from typing import Mapping, Optional
@@ -8,6 +8,7 @@ from typing import Mapping, Optional
 
 class senderror(Exception):
     '''发送失败'''
+
     def __init__(self, *args):
         super().__init__(*args)
 
@@ -18,13 +19,17 @@ class sender:
     Args：
         app_id: 对接方账号.
         app_secret: 私钥.
-   
+
     Attributes: 
         url: 默认的接口域名（前缀）.
         version: 默认的版本.
+        proxies: 使用的代理地址.
+        verify: 是否检验SLL.
     """
     url = "https://waimaiopen.meituan.com/"
     version = "api/v1/"
+    proxies = None
+    verify = None
 
     def __init__(self, app_id: int, app_secret: str):
         self.data = OrderedDict([('app_id', app_id)])
@@ -41,7 +46,7 @@ class sender:
             method: 请求方式 默认'POST'.
             body: 请求业务对应的参数。详见'https://open-shangou.meituan.com/'.
             body["app_poi_code"]: APP方门店id.
-        
+
         Returns:
             req：请求的全部数据. 请求方式为None会返回req
             res：返回的全部数据，经过了反序列化.
@@ -55,9 +60,11 @@ class sender:
         def try_send():
             '''发起请求 超时或状态码不是200将会无限重试（频率15秒）'''
             if method.upper() == 'GET':
-                r = requests.get(self.url + self.version + api, params=req)
+                r = requests.get(self.url + self.version + api,
+                                 params=req, proxies=self.proxies, verify=self.verify)
             elif method.upper() == 'POST':
-                r = requests.post(self.url + self.version + api, data=req)
+                r = requests.post(self.url + self.version + api,
+                                  data=req, proxies=self.proxies, verify=self.verify)
             else:
                 raise TypeError("参数错误：method参数只有‘GET’和‘POST’两种选择")
             r.raise_for_status()
