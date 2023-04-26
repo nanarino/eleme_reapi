@@ -1,0 +1,3 @@
+# eleme_reapi
+# colorama_terminal
+pymssql
