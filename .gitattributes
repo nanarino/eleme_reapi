@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Language stats
+/disclosure/*.py linguist-detectable
+/disclosure/*.sql linguist-detectable
