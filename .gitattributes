@@ -2,5 +2,5 @@
 * text=auto
 
 # Language stats
-requirements.txt linguist-documentation
-/disclosure/* linguist-detectable
+/disclosure/*.py linguist-detectable
+/disclosure/*.sql linguist-detectable
