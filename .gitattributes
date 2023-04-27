@@ -2,5 +2,4 @@
 * text=auto
 
 # Language stats
-/disclosure/**/*.py linguist-detectable
-/disclosure/**/*.sql linguist-detectable
+*.sql linguist-detectable
