@@ -2,4 +2,5 @@
 * text=auto
 
 # Language stats
+requirements.txt linguist-documentation
 /disclosure/* linguist-detectable
