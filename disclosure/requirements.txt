@@ -1,3 +1,3 @@
-# eleme_reapi
-# colorama_terminal
+# meituan_reapi 
+# colorama_terminal # https://github.com/nanarino/colorama-terminal/blob/master/colorama_terminal.py
 pymssql
