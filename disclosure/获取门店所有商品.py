@@ -1,6 +1,6 @@
 import eleme_reapi as ele
 import pathlib
-filename = pathlib.Path('---.txt')
+filename = pathlib.Path('log.txt')
 i = 1
 es = ele.sender(source="39893", secret='******')
 with open(filename, "a+", encoding='utf-8', newline='') as txt:
